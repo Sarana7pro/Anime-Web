@@ -1,0 +1,17 @@
+.messages-window {
+  padding: 20px;
+}
+
+.messages-window h2 {
+  margin-bottom: 15px;
+}
+
+.messages-window .empty-state {
+  text-align: center;
+  color: #999;
+  margin-top: 20px;
+}
+
+.messages-window .message-card {
+  margin-bottom: 10px;
+}
