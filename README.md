@@ -123,11 +123,11 @@ anime-project
 
 2. **配置数据库**  
    - 安装 MySQL 并创建数据库（例如：`anime_db`）。  
-   - 根据 `anime-api/index.js` 中的数据库配置，设置数据库主机、用户名、密码等。
+   - 根据 `anime-server/index.js` 中的数据库配置，设置数据库主机、用户名、密码等。
 
 3. **安装依赖**  
    ```bash
-   cd anime-api
+   cd anime-server
    npm install
    ```
 
@@ -159,6 +159,118 @@ anime-project
    ```
 
 ---
+
+
+## 数据库设计
+
+该项目使用 MySQL 数据库管理系统，主要包含两张表：`users` 和 `mac_vod`，它们分别用于管理用户信息和动漫数据。
+
+### `users` 表
+
+用于存储用户相关信息，包括注册信息、密码、头像、收藏、观看历史等。
+
+| 字段名        | 类型               | 说明                               |
+|---------------|--------------------|------------------------------------|
+| `id`          | `int(11)`          | 用户ID，主键，自动递增               |
+| `username`    | `varchar(50)`       | 用户名，唯一                        |
+| `password`    | `varchar(32)`       | 用户密码（MD5加密）                 |
+| `avatar`      | `varchar(255)`      | 用户头像，允许为空                   |
+| `messages`    | `text`              | 用户消息，允许为空                   |
+| `favorites`   | `text`              | 用户收藏，允许为空                   |
+| `watch_history`| `text`             | 用户观看历史，允许为空               |
+| `created_at`  | `timestamp`         | 用户创建时间，默认当前时间戳         |
+
+### `mac_vod` 表
+
+用于存储动漫相关数据，包括标题、封面图、剧情简介、集数等详细信息。
+
+| 字段名              | 类型                    | 说明                                            |
+|---------------------|-------------------------|-------------------------------------------------|
+| `vod_id`            | `int(10) UNSIGNED`       | 动漫ID，主键，自动递增                           |
+| `type_id`           | `smallint(6)`            | 分类ID（用于分类，如日本动漫、国产动漫等）      |
+| `type_id_1`         | `smallint(6) UNSIGNED`   | 二级分类ID                                     |
+| `group_id`          | `smallint(6) UNSIGNED`   | 分组ID                                          |
+| `vod_name`          | `varchar(255)`           | 动漫标题                                        |
+| `vod_sub`           | `varchar(255)`           | 动漫副标题                                      |
+| `vod_en`            | `varchar(255)`           | 动漫英文名称                                    |
+| `vod_status`        | `tinyint(1) UNSIGNED`    | 动漫状态（如是否可用）                          |
+| `vod_letter`        | `char(1)`                | 标题的首字母（用于排序和索引）                  |
+| `vod_color`         | `varchar(6)`             | 封面颜色（用于标记特定主题或风格）              |
+| `vod_tag`           | `varchar(100)`           | 标签（如“热血”、“搞笑”等）                     |
+| `vod_class`         | `varchar(255)`           | 分类（如“日本动漫”，“国产动漫”等）             |
+| `vod_pic`           | `varchar(1024)`          | 动漫封面图URL                                   |
+| `vod_pic_thumb`     | `varchar(1024)`          | 动漫封面缩略图URL                               |
+| `vod_pic_slide`     | `varchar(1024)`          | 动漫幻灯片图片URL                               |
+| `vod_pic_screenshot`| `text`                   | 动漫截图URL                                      |
+| `vod_actor`         | `varchar(255)`           | 演员列表                                        |
+| `vod_director`      | `varchar(255)`           | 导演                                           |
+| `vod_writer`        | `varchar(100)`           | 编剧                                           |
+| `vod_behind`        | `varchar(100)`           | 背景资料                                       |
+| `vod_blurb`         | `varchar(255)`           | 动漫简介                                        |
+| `vod_remarks`       | `varchar(100)`           | 备注                                           |
+| `vod_pubdate`       | `varchar(100)`           | 发布日期                                        |
+| `vod_total`         | `mediumint(8) UNSIGNED`  | 动漫总集数                                      |
+| `vod_serial`        | `varchar(20)`            | 动漫序列号（如果是剧集或系列）                  |
+| `vod_tv`            | `varchar(30)`            | 动漫电视台（播放平台）                          |
+| `vod_weekday`       | `varchar(30)`            | 每周播放的日期（如每周三、周五等）              |
+| `vod_area`          | `varchar(20)`            | 动漫发布地区                                    |
+| `vod_lang`          | `varchar(10)`            | 动漫语言                                        |
+| `vod_year`          | `varchar(10)`            | 动漫发布年份                                    |
+| `vod_version`       | `varchar(30)`            | 动漫版本（如原版、修复版等）                    |
+| `vod_state`         | `varchar(30)`            | 状态（如正在播放、已完结等）                    |
+| `vod_author`        | `varchar(60)`            | 作者                                           |
+| `vod_jumpurl`       | `varchar(150)`           | 动漫跳转链接                                    |
+| `vod_tpl`           | `varchar(30)`            | 模板                                            |
+| `vod_tpl_play`      | `varchar(30)`            | 播放模板                                        |
+| `vod_tpl_down`      | `varchar(30)`            | 下载模板                                        |
+| `vod_isend`         | `tinyint(1) UNSIGNED`    | 是否完结（0表示未完结，1表示完结）              |
+| `vod_lock`          | `tinyint(1) UNSIGNED`    | 是否锁定（0表示解锁，1表示锁定）                |
+| `vod_level`         | `tinyint(1) UNSIGNED`    | 观看级别（如适合儿童、青少年等）                |
+| `vod_copyright`     | `tinyint(1) UNSIGNED`    | 是否有版权（0表示无版权，1表示有版权）          |
+| `vod_points`        | `smallint(6) UNSIGNED`   | 总积分                                          |
+| `vod_points_play`   | `smallint(6) UNSIGNED`   | 播放积分                                        |
+| `vod_points_down`   | `smallint(6) UNSIGNED`   | 下载积分                                        |
+| `vod_hits`          | `mediumint(8) UNSIGNED`  | 总点击量                                        |
+| `vod_hits_day`      | `mediumint(8) UNSIGNED`  | 今日点击量                                      |
+| `vod_hits_week`     | `mediumint(8) UNSIGNED`  | 本周点击量                                      |
+| `vod_hits_month`    | `mediumint(8) UNSIGNED`  | 本月点击量                                      |
+| `vod_duration`      | `varchar(10)`            | 动漫时长                                        |
+| `vod_up`            | `mediumint(8) UNSIGNED`  | 上传用户ID（如果相关）                          |
+| `vod_down`          | `mediumint(8) UNSIGNED`  | 下载用户ID（如果相关）                          |
+| `vod_score`         | `decimal(3, 1) UNSIGNED` | 动漫评分（0.0-10.0）                            |
+| `vod_score_all`     | `mediumint(8) UNSIGNED`  | 总评分人数                                      |
+| `vod_score_num`     | `mediumint(8) UNSIGNED`  | 评分人数                                        |
+| `vod_time`          | `int(10) UNSIGNED`       | 动漫更新时间                                    |
+| `vod_time_add`      | `int(10) UNSIGNED`       | 动漫数据创建时间，默认当前时间戳               |
+| `vod_time_hits`     | `int(10) UNSIGNED`       | 动漫的点击时间戳                                |
+| `vod_time_make`     | `int(10) UNSIGNED`       | 动漫制作时间                                    |
+| `vod_trysee`        | `smallint(6) UNSIGNED`   | 试看集数                                        |
+| `vod_douban_id`     | `int(10) UNSIGNED`       | 动漫豆瓣ID                                       |
+| `vod_douban_score`  | `decimal(3, 1) UNSIGNED` | 动漫豆瓣评分                                    |
+| `vod_reurl`         | `varchar(255)`           | 重新定向URL                                      |
+| `vod_rel_vod`       | `varchar(255)`           | 相关视频ID（如推荐视频）                        |
+| `vod_rel_art`       | `varchar(255)`           | 相关艺术作品                                    |
+| `vod_pwd`           | `varchar(10)`            | 观看密码                                        |
+| `vod_pwd_url`       | `varchar(255)`           | 密码验证URL                                      |
+| `vod_pwd_play`      | `varchar(10)`            | 播放密码                                        |
+| `vod_pwd_play_url`  | `varchar(255)`           | 播放密码验证URL                                  |
+| `vod_pwd_down`      | `varchar(10)`            | 下载密码                                        |
+| `vod_pwd_down_url`  | `varchar(255)`           | 下载密码验证URL                                  |
+| `vod_content`       | `mediumtext`             | 动漫详细内容                                    |
+| `vod_play_from`     | `varchar(255)`           | 播放来源                                        |
+| `vod_play_server`   | `varchar(255)`           | 播放服务器                                      |
+| `vod_play_note`     | `varchar(255)`           | 播放备注                                        |
+| `vod_play_url`      | `mediumtext`             | 播放URL                                          |
+| `vod_down_from`     | `varchar(255)`           | 下载来源                                        |
+| `vod_down_server`   | `varchar(255)`           | 下载服务器                                      |
+| `vod_down_note`     | `varchar(255)`           | 下载备注                                        |
+| `vod_down_url`      | `mediumtext`             | 下载URL                                          |
+| `vod_plot`          | `tinyint(1) UNSIGNED`    | 是否为剧情更新（0表示否，1表示是）             |
+| `vod_plot_name`     | `mediumtext`             | 剧情更新标题                                    |
+| `vod_plot_detail`   | `mediumtext`             | 剧情更新详细信息                                |
+
+---
+
 
 ## API 文档
 
