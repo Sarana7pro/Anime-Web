@@ -1,5 +1,5 @@
 <template>
-  <AnimeCategoryJapan title="今日更新" moreLink="/today" />
+  <AnimeCategoryJapan title="今日推荐" moreLink="/today" />
 
   
 </template>
