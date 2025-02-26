@@ -271,27 +271,26 @@ Anime-Server
 
 ---
 
-
 ## API 文档
+
 
 ### 动漫数据接口
 
 | **接口名称**              | **请求方法** | **路径**                          | **参数**                        | **返回字段**                              |
 |---------------------------|--------------|-----------------------------------|---------------------------------|-------------------------------------------|
-| **随机日本动漫**          | GET          | `/api/random-anime`               | 无                              | `vod_id`、`vod_name`、`vod_pic`           |
-| **随机国产动漫**          | GET          | `/api/random-china-anime`         | 无                              | 同上                                      |
-| **动漫电影/剧场版/OVA**   | GET          | `/api/anime-movies`               | 无                              | 未指定                                    |
-| **动漫详情**              | GET          | `/api/anime-detail/:id`           | 路径参数：`id`                  | 未指定                                    |
-| **搜索动漫**              | GET          | `/api/search-anime`               | 查询参数：`q`（关键词）         | `vod_id`、`vod_name`、`vod_pic`、`vod_content` |
-| **用户注册**              | POST         | `/api/register`                   | `username`、`password`          | 未指定                                    |
-| **用户登录**              | POST         | `/api/login`                      | `username`、`password`          | 未指定                                    |
-| **获取用户消息**          | GET          | `/api/user/messages`              | 查询参数：`userId`（用户ID）    | 未指定                                    |
-| **获取用户收藏**          | GET          | `/api/user/favorites`             | 查询参数：`userId`（用户ID）    | 未指定                                    |
-| **更新用户收藏**          | POST         | `/api/user/favorites`             | `userId`、`video`（对象）       | 未指定                                    |
-| **获取用户观看历史**      | GET          | `/api/user/watch-history`         | 查询参数：`userId`（用户ID）    | 未指定                                    |
-| **记录观看历史**          | POST         | `/api/user/watch-history`         | `userId`、`video`（对象）       | 未指定                                    |
-
----
+| **随机日本动漫**          | GET          | /api/random-anime               | 无                              | vod_id、vod_name、vod_pic           |
+| **随机国产动漫**          | GET          | /api/random-china-anime         | 无                              | 同上                                      |
+| **动漫电影/剧场版/OVA**   | GET          | /api/anime-movies               | 无                              | 未指定                                    |
+| **追番周表数据**          | GET          | /api/schedule                   | 无                              | 按星期分组的vod_id、vod_name、vod_pic |
+| **动漫详情**              | GET          | /api/anime-detail/:id           | 路径参数：id                  | 未指定                                    |
+| **搜索动漫**              | GET          | /api/search-anime               | 查询参数：q（关键词）         | vod_id、vod_name、vod_pic、vod_content |
+| **用户注册**              | POST         | /api/register                   | username、password          | 未指定                                    |
+| **用户登录**              | POST         | /api/login                      | username、password          | 未指定                                    |
+| **获取用户消息**          | GET          | /api/user/messages              | 查询参数：userId（用户ID）    | 未指定                                    |
+| **获取用户收藏**          | GET          | /api/user/favorites             | 查询参数：userId（用户ID）    | 未指定                                    |
+| **更新用户收藏**          | POST         | /api/user/favorites             | userId、video（对象）       | 未指定                                    |
+| **获取用户观看历史**      | GET          | /api/user/watch-history         | 查询参数：userId（用户ID）    | 未指定                                    |
+| **记录观看历史**          | POST         | /api/user/watch-history         | userId、video（对象）       | 未指定                                    |
 
 ### 说明：
 1. **参数类型**：
